@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Cloud Computing Assignment — Node.js & Docker</title>
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #1f3864, #4a6fa5);
+  }
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 40px 50px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    text-align: center;
+    max-width: 440px;
+  }
+  .badge {
+    display: inline-block;
+    background: #B8860B;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+  h1 { color: #1f3864; margin: 0 0 4px; font-size: 26px; }
+  p.sub { color: #666; margin-top: 0; margin-bottom: 4px; }
+  p.assignment { color: #888; font-size: 13px; margin-top: 0; }
+  .status {
+    margin-top: 24px;
+    padding: 16px;
+    background: #f2f2f2;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #333;
+    text-align: left;
+  }
+  .dot {
+    display: inline-block;
+    width: 10px; height: 10px;
+    background: #2ecc71;
+    border-radius: 50%;
+    margin-right: 6px;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+  .footer {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #eee;
+    font-size: 13px;
+    color: #999;
+  }
+  .footer strong { color: #1f3864; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <span class="badge">Cloud Computing Assignment</span>
+    <h1>🐳 Dockerized Node.js App</h1>
+    <p class="sub">Deployed on AWS EC2</p>
+    <p class="assignment">Node.js & Docker Deployment — GitHub → EC2 → Docker Hub</p>
+    <div class="status" id="status"><span class="dot"></span>Loading server status...</div>
+    <div class="footer">Submitted by <strong>Damilare Kelani</strong></div>
+  </div>
+
+  <script>
+    async function loadStatus() {
+      try {
+        const res = await fetch('/api/status');
+        const data = await res.json();
+        document.getElementById('status').innerHTML =
+          `<span class="dot"></span><strong>${data.message}</strong><br/>
+           Server time: ${data.serverTime}<br/>
+           Uptime: ${data.uptime}`;
+      } catch (e) {
+        document.getElementById('status').innerText = 'Could not reach server.';
+      }
+    }
+    loadStatus();
+    setInterval(loadStatus, 2000);
+  </script>
+</body>
+</html>
